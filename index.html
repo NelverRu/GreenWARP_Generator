@@ -274,8 +274,8 @@
             
             <div class="select-wrapper">
                 <select id="endpointSelect">
-                    <option value="standard" data-endpoint="engage.cloudflareclient.com:2408" data-name="Cloudflare WARP, RU">
-                        ru Cloudflare WARP, RU
+                    <option value="standard" data-endpoint="engage.cloudflareclient.com:2408" data-name="Cloudflare WARP">
+                        🇷🇺 Cloudflare WARP
                     </option>
                     <option value="fr" data-endpoint="147.135.212.152:5242" data-name="Roubaix, FR">
                         🇫🇷 Roubaix, FR
@@ -369,10 +369,10 @@
                     const moscowTime = getMoscowTimeString();
                     
                     const typePrefix = {
-                        'ru': 'RU',
-                        'fr': 'FR',
-                        'pl': 'PL',
-                        'de': 'DE'
+                      'standard': 'RU',
+                      'fr': 'FR',
+                      'pl': 'PL',
+                      'de': 'DE'
                     }[endpointType] || 'AWG';
                     
                     const fileName = `AWG_${typePrefix}_${moscowTime}.conf`;
