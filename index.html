@@ -274,8 +274,8 @@
             
             <div class="select-wrapper">
                 <select id="endpointSelect">
-                    <option value="standard" data-endpoint="engage.cloudflareclient.com:2408" data-name="Cloudflare Global">
-                        🌍 Cloudflare Global
+                    <option value="standard" data-endpoint="engage.cloudflareclient.com:2408" data-name="Cloudflare WARP, RU">
+                        ru Cloudflare WARP, RU
                     </option>
                     <option value="fr" data-endpoint="147.135.212.152:5242" data-name="Roubaix, FR">
                         🇫🇷 Roubaix, FR
@@ -293,13 +293,10 @@
             </div>
 
             <button id="generateBtn" class="card-button">
-                <span class="button__text">💻 Сгенерировать для ПК</span>
+                <span class="button__text">Сгенерировать</span>
             </button>
         </div>
 
-        <div class="footer-note">
-            Конфигурации AmneziaWG • ПК
-        </div>
     </div>
 
     <script>
@@ -372,13 +369,13 @@
                     const moscowTime = getMoscowTimeString();
                     
                     const typePrefix = {
-                        'standard': 'CF_Global',
+                        'ru': 'RU',
                         'fr': 'FR',
                         'pl': 'PL',
                         'de': 'DE'
                     }[endpointType] || 'AWG';
                     
-                    const fileName = `AWG_${typePrefix}_PC_${moscowTime}.conf`;
+                    const fileName = `AWG_${typePrefix}_${moscowTime}.conf`;
                     
                     downloadFile(configContent, fileName);
                     
