@@ -131,7 +131,7 @@ class WarpConfigBuilder {
 
 // Маппинг конечных точек
 const ENDPOINT_MAP = {
-  'standard': { deviceType: 'computer', endpoint: 'engage.cloudflareclient.com:2408', name: 'Cloudflare WARP, RU' },
+  'standard': { deviceType: 'computer', endpoint: 'engage.cloudflareclient.com:2408', name: 'Cloudflare WARP' },
   'fr':       { deviceType: 'computer', endpoint: '147.135.212.152:5242', name: 'Roubaix, FR' },
   'pl':       { deviceType: 'computer', endpoint: '51.38.153.32:5242', name: 'Warsaw, PL' },
   'de':       { deviceType: 'computer', endpoint: '51.38.107.252:5242', name: 'Frankfurt, DE' },
