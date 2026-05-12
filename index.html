@@ -1,0 +1,411 @@
+<!DOCTYPE html>  
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AmneziaWG Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+
+        .static-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: #000000;
+            -webkit-text-stroke: 2px #00ff64;
+            text-stroke: 2px #00ff64;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .logo-image {
+            width: 260px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 40px 32px;
+            border: 1px solid rgba(0, 255, 100, 0.25);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 255, 100, 0.6);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 100, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .card-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: #00ff64;
+            margin-bottom: 24px;
+        }
+
+        .select-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 100, 0.3);
+            border-radius: 14px;
+            color: #e0e0e0;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .select-wrapper select:hover {
+            border-color: rgba(0, 255, 100, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .select-wrapper select:focus {
+            border-color: #00ff64;
+            box-shadow: 0 0 12px rgba(0, 255, 100, 0.2);
+        }
+
+        .select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            top: 50%;
+            right: 18px;
+            transform: translateY(-50%);
+            color: #00ff64;
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        .select-wrapper select option {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .endpoint-info {
+            font-size: 13px;
+            color: #6b8a7a;
+            margin: -16px 0 20px 0;
+            text-align: left;
+            padding-left: 4px;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, rgba(0, 255, 100, 0.15), rgba(0, 212, 255, 0.15));
+            border: 1px solid rgba(0, 255, 100, 0.4);
+            border-radius: 40px;
+            padding: 16px 32px;
+            font-size: 17px;
+            font-weight: 600;
+            color: #00ff64;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .card-button:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 100, 0.25), rgba(0, 212, 255, 0.25));
+            border-color: #00ff64;
+            box-shadow: 0 0 20px rgba(0, 255, 100, 0.3);
+        }
+
+        .card-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .button--loading {
+            position: relative;
+        }
+
+        .button--loading .button__text {
+            visibility: hidden;
+        }
+
+        .button--loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #00ff64;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 50, 50, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid #ff4444;
+            border-radius: 16px;
+            padding: 14px 20px;
+            color: white;
+            text-align: center;
+            z-index: 9999;
+            font-size: 14px;
+            animation: fadeInUp 0.3s ease;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #4a6a55;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 500px) {
+            .logo { 
+                font-size: 32px; 
+                -webkit-text-stroke: 1.5px #00ff64; 
+            }
+            .logo-image { width: 180px; }
+            .card-title { font-size: 22px; }
+            .card-icon { font-size: 52px; }
+            .card { padding: 28px 20px; }
+            .card-button { 
+                padding: 14px 24px; 
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="static-bg"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">AmneziaWG Generator</div>
+            <img class="logo-image" src="https://warp-generator.github.io/logo.svg" alt="logo" onerror="this.style.display='none'">
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🖥️</div>
+            <div class="card-title">Генератор конфигураций</div>
+            
+            <div class="select-wrapper">
+                <select id="endpointSelect">
+                    <option value="standard" data-endpoint="engage.cloudflareclient.com:2408" data-name="Cloudflare Global">
+                        🌍 Cloudflare Global
+                    </option>
+                    <option value="fr" data-endpoint="147.135.212.152:5242" data-name="Roubaix, FR">
+                        🇫🇷 Roubaix, FR
+                    </option>
+                    <option value="pl" data-endpoint="51.38.153.32:5242" data-name="Warsaw, PL">
+                        🇵🇱 Warsaw, PL
+                    </option>
+                    <option value="de" data-endpoint="51.38.107.252:5242" data-name="Frankfurt, DE">
+                        🇩🇪 Frankfurt, DE
+                    </option>
+                </select>
+            </div>
+            <div class="endpoint-info" id="endpointInfo">
+                engage.cloudflareclient.com:2408
+            </div>
+
+            <button id="generateBtn" class="card-button">
+                <span class="button__text">💻 Сгенерировать для ПК</span>
+            </button>
+        </div>
+
+        <div class="footer-note">
+            Конфигурации AmneziaWG • ПК
+        </div>
+    </div>
+
+    <script>
+        // Обновление информации о выбранном эндпоинте
+        const endpointSelect = document.getElementById('endpointSelect');
+        const endpointInfo = document.getElementById('endpointInfo');
+
+        function updateEndpointInfo() {
+            const selectedOption = endpointSelect.options[endpointSelect.selectedIndex];
+            const endpoint = selectedOption.getAttribute('data-endpoint');
+            endpointInfo.textContent = endpoint;
+        }
+
+        endpointSelect.addEventListener('change', updateEndpointInfo);
+
+        function getMoscowTimeString() {
+            const now = new Date();
+            const moscowTime = new Date(now.getTime() + (3 * 60 * 60 * 1000));
+            const hours = String(moscowTime.getUTCHours()).padStart(2, '0');
+            const minutes = String(moscowTime.getUTCMinutes()).padStart(2, '0');
+            return `${hours}_${minutes}`;
+        }
+
+        function downloadFile(content, fileName) {
+            const blob = new Blob([content], { type: 'application/x-wireguard-profile' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function showError(message) {
+            const toast = document.createElement('div');
+            toast.className = 'error-toast';
+            toast.textContent = `❌ ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        async function generateConfig() {
+            const button = document.getElementById('generateBtn');
+            const buttonText = button.querySelector('.button__text');
+            const originalText = buttonText.textContent;
+            
+            button.disabled = true;
+            button.classList.add("button--loading");
+
+            try {
+                const selectedOption = endpointSelect.options[endpointSelect.selectedIndex];
+                const endpointType = selectedOption.value;
+                
+                const response = await fetch('/api/warp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: endpointType })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.content) {
+                    const configContent = atob(data.content);
+                    const moscowTime = getMoscowTimeString();
+                    
+                    const typePrefix = {
+                        'standard': 'CF_Global',
+                        'fr': 'FR',
+                        'pl': 'PL',
+                        'de': 'DE'
+                    }[endpointType] || 'AWG';
+                    
+                    const fileName = `AWG_${typePrefix}_PC_${moscowTime}.conf`;
+                    
+                    downloadFile(configContent, fileName);
+                    
+                    buttonText.textContent = '✅ Готово!';
+                    setTimeout(() => {
+                        buttonText.textContent = originalText;
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || 'Ошибка генерации конфига');
+                }
+            } catch (error) {
+                console.error('Generation error:', error);
+                showError(error.message || 'Ошибка при генерации. Проверьте соединение с сервером.');
+                buttonText.textContent = `❌ Ошибка`;
+                setTimeout(() => {
+                    buttonText.textContent = originalText;
+                    button.disabled = false;
+                }, 2500);
+            } finally {
+                button.classList.remove("button--loading");
+                if (!buttonText.textContent.includes('Ошибка')) {
+                    button.disabled = false;
+                }
+            }
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', generateConfig);
+    </script>
+</body>
+</html>
