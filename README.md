@@ -7,7 +7,7 @@
 
 <br>
 <div align="center">
-<a href="https://green-warp-generator.vercel.app/" target="_blank">
+<a href="https://green-wg-gen.vercel.app" target="_blank">
 <img src="https://img.shields.io/badge/🔗_greenwarp.vercel.app-32CD32?style=for-the-badge&logo=vercel&logoColor=black" alt="Green WARP Generator">
 </a>
 </div>
