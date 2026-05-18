@@ -20,8 +20,7 @@ ___
 
 - Выбор конечной точки:  
 - [RU] Cloudflare WARP  
-- [FI] Helsinki
-- [FR] Roubaix  
+- [FR] Roubaix    
 - [PL] Warsaw  
 - [DE] Frankfurt  
 
