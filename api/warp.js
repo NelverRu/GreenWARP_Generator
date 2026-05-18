@@ -19,7 +19,7 @@ class CloudflareWarpClient {
     };
 
     const response = await this.makeRequest('POST', 'reg', requestBody);
-    
+
     if (!response.result?.id || !response.result?.token) {
       throw new Error('Invalid registration response structure');
     }
@@ -56,7 +56,7 @@ class CloudflareWarpClient {
     }
 
     const response = await fetch(url, options);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
@@ -68,7 +68,7 @@ class CloudflareWarpClient {
 class CryptoUtils {
   static generateKeyPair() {
     const keyPair = nacl.box.keyPair();
-    
+
     return {
       privateKey: Buffer.from(keyPair.secretKey).toString('base64'),
       publicKey: Buffer.from(keyPair.publicKey).toString('base64'),
@@ -132,7 +132,6 @@ class WarpConfigBuilder {
 // Маппинг конечных точек
 const ENDPOINT_MAP = {
   'standard': { deviceType: 'computer', endpoint: 'engage.cloudflareclient.com:2408', name: 'Cloudflare WARP' },
-  'fi':       { deviceType: 'computer', endpoint: '83.143.112.121:2408', name: 'Helsinki, FI' },
   'fr':       { deviceType: 'computer', endpoint: '147.135.212.152:5242', name: 'Roubaix, FR' },
   'pl':       { deviceType: 'computer', endpoint: '51.38.153.32:5242', name: 'Warsaw, PL' },
   'de':       { deviceType: 'computer', endpoint: '51.38.107.252:5242', name: 'Frankfurt, DE' },
@@ -149,7 +148,7 @@ export default async function handler(req, res) {
 
   try {
     let configKey = 'standard';
-    
+
     if (req.method === 'GET') {
       configKey = req.query?.type || 'standard';
     } else if (req.method === 'POST') {
@@ -195,7 +194,7 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Error generating config:', error);
-    
+
     return res.status(500).json({
       success: false,
       message: error.message || 'Ошибка при генерации конфигурации',
